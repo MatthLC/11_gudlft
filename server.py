@@ -13,7 +13,7 @@ def loadCompetitions():
          listOfCompetitions = json.load(comps)['competitions']
          return listOfCompetitions
 
-
+#test
 app = Flask(__name__)
 app.secret_key = 'something_special'
 
