@@ -52,8 +52,11 @@ def create_app(config={}):
 
     @app.route('/showSummary',methods=['POST'])
     def showSummary():
-        
-        club = [club for club in clubs if club['email'] == request.form['email']][0]
+        # Issue 1 : ERROR entering a unknown email crashes the app
+        try:
+            club = [club for club in clubs if club['email'] == request.form['email']][0]
+        except:
+            return (render_template('index.html', error="Sorry, that email is not found."), 403)
 
         # Init user session to check if the user is logged in
         session['username'] = request.form['email']
