@@ -85,6 +85,7 @@ def create_app(config={}):
             club = [c for c in clubs if c['name'] == request.form['club']][0]
             placesRequired = int(request.form['places'])
 
+            # ISSUE2 : BUG: Clubs should not be able to use more than their points allowed
             if (
                 int(placesRequired) <= int(club['points']) 
                 and int(placesRequired) >= 0
@@ -97,6 +98,7 @@ def create_app(config={}):
                 return render_template('welcome.html', club=club, competitions=competitions)
 
             else:
+                # ISSUE2 : ajout d'un message en cas de nombre de place négatif
                 if int(placesRequired) < 0:
                     flash('Please, enter a positive number')
                 else:
