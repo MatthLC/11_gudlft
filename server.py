@@ -80,12 +80,29 @@ def create_app(config={}):
     @app.route('/purchasePlaces',methods=['POST'])
     def purchasePlaces():
         if 'username' in session:
+
             competition = [c for c in competitions if c['name'] == request.form['competition']][0]
             club = [c for c in clubs if c['name'] == request.form['club']][0]
             placesRequired = int(request.form['places'])
-            competition['numberOfPlaces'] = int(competition['numberOfPlaces'])-placesRequired
-            flash('Great-booking complete!')
-            return render_template('welcome.html', club=club, competitions=competitions)
+
+            if (
+                int(placesRequired) <= int(club['points']) 
+                and int(placesRequired) >= 0
+                and int(placesRequired) <= int(competition['numberOfPlaces'])
+            ):
+
+                competition['numberOfPlaces'] = int(competition['numberOfPlaces'])-placesRequired
+
+                flash('Great-booking complete!')
+                return render_template('welcome.html', club=club, competitions=competitions)
+
+            else:
+                if int(placesRequired) < 0:
+                    flash('Please, enter a positive number')
+                else:
+                    flash("Not enough point available.")
+                return render_template('booking.html',club=club,competition=competition)
+
         return 'You are not logged in'
 
 
