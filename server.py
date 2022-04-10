@@ -1,5 +1,6 @@
 import json
 from flask import Flask, render_template, request, redirect, flash, url_for, session
+from datetime import datetime
 
 
 """
@@ -12,6 +13,9 @@ TEST_DATA_COMPETITIONS = 'test_competitions'
 
 # ISSUE4 : BUG: Clubs should not be able to use more than their points allowed
 MAX_PURCHASE = 12
+
+# ISSUE5 : Booking places in past competitions
+
 
 """
 Changed the two function 'loadClubs' & 'loadCompetitions' to 'loadFile'.
@@ -73,6 +77,15 @@ def create_app(config={}):
         if 'username' in session:
             foundClub = [c for c in clubs if c['name'] == club][0]
             foundCompetition = [c for c in competitions if c['name'] == competition][0]
+
+            # ISSUE5 : Booking places in past competitions
+            # Empeche l'utilisateur d'acceder à une compétition terminée
+            
+            USER_DATETIME = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+            if foundCompetition['date']<USER_DATETIME:
+                flash("This competition is closed.")
+                return render_template('welcome.html', club=foundClub, competitions=competitions)
+                                
             if foundClub and foundCompetition:
                 return render_template('booking.html',club=foundClub,competition=foundCompetition)
             else:
@@ -89,6 +102,14 @@ def create_app(config={}):
             club = [c for c in clubs if c['name'] == request.form['club']][0]
             placesRequired = int(request.form['places'])
 
+            # ISSUE5 : Booking places in past competitions
+            # revérification des dates, si l'utilisateur s'est endormi et que minuit a passé...
+            
+            USER_DATETIME = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+            if competition['date'] < USER_DATETIME:
+                flash('This competition is no more available.')
+                return render_template('welcome.html', club=club, competitions=competitions)                
+            
             # ISSUE3 : ajout d'une donnée pour le club. {'nom de la compétition': 'places déjà achetées'}
             # L'utilisateur peut acheter 12 places en plusieurs fois
 

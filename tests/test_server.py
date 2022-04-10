@@ -97,13 +97,25 @@ def test_purchaseplaces_user_is_not_logged_in(client, first_club_fixture, firt_c
     data = response.data.decode()
     assert data.find("You are not logged in") != -1
 
-def test_purchaseplaces_display_flash_message_after_buying_places(client, first_club_fixture, firt_competition_past_fixture):
+"""
+ISSUE5 :
+Changement du test à cause de l'implémentation du controle de la date des compétitions
+Il n'est plus possible d'accéder à une compétition terminée
+Modification :
+    - changement de la ficture: firt_competition_past_fixture -> second_competition_post_fixture
+    - Ajout d'un nouveau test si la compétition est terminée dans test_server_issue5.py
+"""
+def test_purchaseplaces_display_flash_message_after_buying_places_on_post_competition(
+    client,
+    first_club_fixture,
+    second_competition_post_fixture
+):
     loggin = client.post('/showSummary', data=dict(email=first_club_fixture['email']), follow_redirects=True)
     response = client.post(
         '/purchasePlaces',
         data=dict(
             club=first_club_fixture['name'],
-            competition=firt_competition_past_fixture['name'],
+            competition=second_competition_post_fixture['name'],
             places=3
         )
     )
