@@ -6,9 +6,11 @@ from datetime import datetime
 """
 Listing all data to read
 """
-DATA_CLUBS = 'clubs' 
+
+
+DATA_CLUBS = 'clubs'
 DATA_COMPETITIONS = 'competitions'
-TEST_DATA_CLUBS = 'test_clubs' 
+TEST_DATA_CLUBS = 'test_clubs'
 TEST_DATA_COMPETITIONS = 'test_competitions'
 
 # ISSUE4 : BUG: Clubs should not be able to use more than their points allowed
@@ -19,11 +21,12 @@ MAX_PURCHASE = 12
 
 """
 Changed the two function 'loadClubs' & 'loadCompetitions' to 'loadFile'.
-parameter : 
+parameter :
  - file_name : Json data name
 
 The list name has the same name as the Json fine.
 """
+
 
 def loadFile(file_name):
     with open(file_name + '.json') as file:
@@ -34,31 +37,31 @@ def loadFile(file_name):
 """
 Changed the building with 'def create_app'
 """
+
+
 def create_app(config={}):
 
     app = Flask(__name__)
     app.config.from_object(config)
 
-    #Set 'TESTING' to True when testing
+    # Set 'TESTING' to True when testing
     app.config.update(config)
 
     app.secret_key = 'something_special'
-    
-    
+
     # Changed the method to have the possibility to apply test on fake database
-    if app.config['TESTING'] == True:
-        competitions= loadFile(TEST_DATA_COMPETITIONS)
+    if app.config['TESTING'] is True:
+        competitions = loadFile(TEST_DATA_COMPETITIONS)
         clubs = loadFile(TEST_DATA_CLUBS)
     else:
         competitions = loadFile(DATA_COMPETITIONS)
         clubs = loadFile(DATA_CLUBS)
 
-
     @app.route('/')
     def index():
         return render_template('index.html')
 
-    @app.route('/showSummary',methods=['POST'])
+    @app.route('/showSummary', methods=['POST'])
     def showSummary():
         # Issue 1 : ERROR entering a unknown email crashes the app
         try:
@@ -69,38 +72,36 @@ def create_app(config={}):
         # Init user session to check if the user is logged in
         session['username'] = request.form['email']
 
-        return render_template('welcome.html',club=club,competitions=competitions)
-
+        return render_template('welcome.html', club=club, competitions=competitions)
 
     @app.route('/book/<competition>/<club>')
-    def book(competition,club):
+    def book(competition, club):
         if 'username' in session:
             foundClub = [c for c in clubs if c['name'] == club][0]
             foundCompetition = [c for c in competitions if c['name'] == competition][0]
 
             # ISSUE5 : Booking places in past competitions
             # Empeche l'utilisateur d'acceder à une compétition terminée
-            
+
             USER_DATETIME = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-            if foundCompetition['date']<USER_DATETIME:
+            if foundCompetition['date'] < USER_DATETIME:
                 flash("This competition is closed.")
                 return render_template('welcome.html', club=foundClub, competitions=competitions)
 
-            #ISSUE6 : Ajout d'une vérification des points du club
+            # ISSUE6 : Ajout d'une vérification des points du club
             if foundClub['points'] == 0:
                 flash("Your cannot book places anymore. You are out of points")
                 return render_template('welcome.html', club=foundClub, competitions=competitions)
 
             if foundClub and foundCompetition:
-                return render_template('booking.html',club=foundClub,competition=foundCompetition)
+                return render_template('booking.html', club=foundClub, competition=foundCompetition)
 
             else:
                 flash("Something went wrong-please try again")
                 return render_template('welcome.html', club=club, competitions=competitions)
         return 'You are not logged in'
 
-
-    @app.route('/purchasePlaces',methods=['POST'])
+    @app.route('/purchasePlaces', methods=['POST'])
     def purchasePlaces():
         if 'username' in session:
 
@@ -110,12 +111,12 @@ def create_app(config={}):
 
             # ISSUE5 : Booking places in past competitions
             # revérification des dates, si l'utilisateur s'est endormi et que minuit a passé...
-            
+
             USER_DATETIME = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
             if competition['date'] < USER_DATETIME:
                 flash('This competition is no more available.')
-                return render_template('welcome.html', club=club, competitions=competitions)                
-            
+                return render_template('welcome.html', club=club, competitions=competitions)
+
             # ISSUE3 : ajout d'une donnée pour le club. {'nom de la compétition': 'places déjà achetées'}
             # L'utilisateur peut acheter 12 places en plusieurs fois
 
@@ -124,7 +125,7 @@ def create_app(config={}):
 
             # ISSUE2 : BUG: Clubs should not be able to use more than their points allowed
             if (
-                int(placesRequired) <= int(club['points']) 
+                int(placesRequired) <= int(club['points'])
                 and int(placesRequired) >= 0
                 and int(placesRequired) <= int(competition['numberOfPlaces'])
             ):
@@ -132,7 +133,7 @@ def create_app(config={}):
                 # ISSUE4 : BUG: Clubs should not be able to use more than their points allowed
                 if int(club[str(competition['name'])]) + int(placesRequired) > MAX_PURCHASE:
                     flash(f"You can order maximum {MAX_PURCHASE} places.")
-                    return render_template('booking.html',club=club,competition=competition)
+                    return render_template('booking.html', club=club, competition=competition)
 
                 competition['numberOfPlaces'] = int(competition['numberOfPlaces'])-placesRequired
 
@@ -140,7 +141,7 @@ def create_app(config={}):
                 # décompte le nombre de place des points du club
                 club[str(competition['name'])] += int(placesRequired)
 
-                #ISSUE6 : correctif déjà présent, le même que pour l'ISSUE 2 ?
+                # ISSUE6 : correctif déjà présent, le même que pour l'ISSUE 2 ?
                 club['points'] = int(club['points']) - int(placesRequired)
 
                 flash('Great-booking complete!')
@@ -152,13 +153,11 @@ def create_app(config={}):
                     flash('Please, enter a positive number')
                 else:
                     flash("Not enough point available.")
-                return render_template('booking.html',club=club,competition=competition)
+                return render_template('booking.html', club=club, competition=competition)
 
         return 'You are not logged in'
 
-
     # TODO: Add route for points display
-
 
     @app.route('/logout')
     def logout():
