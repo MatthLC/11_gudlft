@@ -140,3 +140,11 @@ def test_purchaseplaces_display_flash_message_after_buying_places_on_post_compet
     assert response.status_code == 200
     data = response.data.decode()
     assert data.find("Great-booking complete!") != -1
+
+
+def test_logout(client, first_club_fixture):
+    login = client.post('/showSummary', data=dict(email=first_club_fixture['email']), follow_redirects=True)
+    assert login.status_code == 200
+    response = client.get('/logout', follow_redirects=True)
+    data = response.data.decode()
+    assert data.find('Welcome to the GUDLFT Registration Portal!') != -1
