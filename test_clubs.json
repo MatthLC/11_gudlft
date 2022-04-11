@@ -8,5 +8,10 @@
         "name":"test2 GUDLFT",
         "email":"test2_email@gudlft.com",
         "points":"20"
+    },
+    {
+        "name":"test3 GUDLFT",
+        "email":"test3_email@gudlft.com",
+        "points":"1"
     }
 ]}

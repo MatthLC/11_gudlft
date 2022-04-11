@@ -41,6 +41,15 @@ def second_club_fixture():
     }
 	return club_data
 
+@pytest.fixture
+def third_club_fixture():
+    club_data = {
+        "name":"test3 GUDLFT",
+        "email":"test3_email@gudlft.com",
+        "points":"1"
+    }
+    return club_data
+    
 """
 competition data
 assuming past_ is first observation and post_ is second

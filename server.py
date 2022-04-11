@@ -85,9 +85,15 @@ def create_app(config={}):
             if foundCompetition['date']<USER_DATETIME:
                 flash("This competition is closed.")
                 return render_template('welcome.html', club=foundClub, competitions=competitions)
-                                
+
+            #ISSUE6 : Ajout d'une vérification des points du club
+            if foundClub['points'] == 0:
+                flash("Your cannot book places anymore. You are out of points")
+                return render_template('welcome.html', club=foundClub, competitions=competitions)
+
             if foundClub and foundCompetition:
                 return render_template('booking.html',club=foundClub,competition=foundCompetition)
+
             else:
                 flash("Something went wrong-please try again")
                 return render_template('welcome.html', club=club, competitions=competitions)
@@ -133,6 +139,8 @@ def create_app(config={}):
                 # Incrémente 1 à la nouvelle donnée pour le club {'nom de la compétition': 'places déjà achetées + 1'}
                 # décompte le nombre de place des points du club
                 club[str(competition['name'])] += int(placesRequired)
+
+                #ISSUE6 : correctif déjà présent, le même que pour l'ISSUE 2 ?
                 club['points'] = int(club['points']) - int(placesRequired)
 
                 flash('Great-booking complete!')
