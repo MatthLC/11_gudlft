@@ -12,6 +12,11 @@
     {
         "name":"test3 GUDLFT",
         "email":"test3_email@gudlft.com",
-        "points":"1"
+        "points":"3"
+    },
+    {
+        "name":"test4 GUDLFT",
+        "email":"test4_email@gudlft.com",
+        "points":"40"
     }
 ]}

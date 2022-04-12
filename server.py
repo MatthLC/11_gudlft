@@ -125,7 +125,7 @@ def create_app(config={}):
 
             # ISSUE2 : BUG: Clubs should not be able to use more than their points allowed
             if (
-                int(placesRequired) <= int(club['points'])
+                (int(placesRequired)*3) <= int(club['points'])
                 and int(placesRequired) >= 0
                 and int(placesRequired) <= int(competition['numberOfPlaces'])
             ):
@@ -142,7 +142,7 @@ def create_app(config={}):
                 club[str(competition['name'])] += int(placesRequired)
 
                 # ISSUE6 : correctif déjà présent, le même que pour l'ISSUE 2 ?
-                club['points'] = int(club['points']) - int(placesRequired)
+                club['points'] = int(club['points']) - (int(placesRequired)*3)
 
                 flash('Great-booking complete!')
                 return render_template('welcome.html', club=club, competitions=competitions)
@@ -157,7 +157,7 @@ def create_app(config={}):
 
         return 'You are not logged in'
 
-    # TODO: Add route for points display
+    # Phase2 : ajout du nombre de points par club
     @app.route('/clubsboard')
     def clubsboard():
         return render_template('board.html', clubs=clubs)

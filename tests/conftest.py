@@ -54,7 +54,17 @@ def third_club_fixture():
     club_data = {
         "name": "test3 GUDLFT",
         "email": "test3_email@gudlft.com",
-        "points": "1"
+        "points": "3"
+    }
+    return club_data
+
+
+@pytest.fixture
+def forth_club_fixture():
+    club_data = {
+        "name": "test4 GUDLFT",
+        "email": "test4_email@gudlft.com",
+        "points": "40"
     }
     return club_data
 

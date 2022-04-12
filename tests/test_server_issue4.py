@@ -15,14 +15,14 @@ Modification :
 """
 
 
-def test_cant_take_more_than_twelve_places(client, first_club_fixture, second_competition_post_fixture):
-    login = client.post('/showSummary', data=dict(email=first_club_fixture['email']), follow_redirects=True)
+def test_cant_take_more_than_twelve_places(client, forth_club_fixture, second_competition_post_fixture):
+    login = client.post('/showSummary', data=dict(email=forth_club_fixture['email']), follow_redirects=True)
     assert login.status_code == 200
 
     response = client.post(
         '/purchasePlaces',
         data=dict(
-            club=first_club_fixture['name'],
+            club=forth_club_fixture['name'],
             competition=second_competition_post_fixture['name'],
             places=13
         )
@@ -34,16 +34,16 @@ def test_cant_take_more_than_twelve_places(client, first_club_fixture, second_co
 
 def test_cant_take_more_than_twelve_places_with_many_tries(
     client,
-    first_club_fixture,
+    forth_club_fixture,
     second_competition_post_fixture
 ):
-    login = client.post('/showSummary', data=dict(email=first_club_fixture['email']), follow_redirects=True)
+    login = client.post('/showSummary', data=dict(email=forth_club_fixture['email']), follow_redirects=True)
     assert login.status_code == 200
 
     response = client.post(
         '/purchasePlaces',
         data=dict(
-            club=first_club_fixture['name'],
+            club=forth_club_fixture['name'],
             competition=second_competition_post_fixture['name'],
             places=10
         )
@@ -52,7 +52,7 @@ def test_cant_take_more_than_twelve_places_with_many_tries(
     response = client.post(
         '/purchasePlaces',
         data=dict(
-            club=first_club_fixture['name'],
+            club=forth_club_fixture['name'],
             competition=second_competition_post_fixture['name'],
             places=3
         )
