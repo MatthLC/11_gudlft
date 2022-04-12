@@ -158,6 +158,9 @@ def create_app(config={}):
         return 'You are not logged in'
 
     # TODO: Add route for points display
+    @app.route('/clubsboard')
+    def clubsboard():
+        return render_template('board.html', clubs=clubs)
 
     @app.route('/logout')
     def logout():
