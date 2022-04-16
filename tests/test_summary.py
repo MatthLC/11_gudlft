@@ -1,5 +1,5 @@
 from tests.conftest import client
-
+from server import loadFile
 
 """
 /showSummary
@@ -7,7 +7,7 @@ from tests.conftest import client
 
 
 def test_summary_login_user_success(client, first_club_fixture):
-    response = cslient.post('/showSummary', data=dict(email=first_club_fixture['email']), follow_redirects=True)
+    response = client.post('/showSummary', data=dict(email=first_club_fixture['email']), follow_redirects=True)
     assert response.status_code == 200
     data = response.data.decode()
     assert data.find('Please enter your secretary email to continue') == -1

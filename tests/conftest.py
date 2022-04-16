@@ -18,8 +18,8 @@ File name of data used for tests
 @pytest.fixture
 def file_name_of_data_test():
     file_name = {
-        'TEST_DATA_CLUBS': 'test_clubs',
-        'TEST_DATA_COMPETITIONS': 'test_competitions'
+        'TEST_DATA_CLUBS': 'features/test_clubs',
+        'TEST_DATA_COMPETITIONS': 'features/test_competitions'
     }
     return file_name
 
