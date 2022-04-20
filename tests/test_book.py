@@ -1,41 +1,37 @@
 from tests.conftest import client
 
 
-def test_cannot_take_places_from_past_competition(
-    client,
-    first_club_fixture,
-    firt_competition_past_fixture
-):
+"""
+/book/<competition>/<club>
+"""
+
+
+def test_book_should_status_code_ok(client, first_club_fixture, firt_competition_past_fixture):
     login = client.post('/showSummary', data=dict(email=first_club_fixture['email']), follow_redirects=True)
     assert login.status_code == 200
-    response = client.post(
-        '/purchasePlaces',
-        data=dict(
-            club=first_club_fixture['name'],
-            competition=firt_competition_past_fixture['name'],
-            places=3
-        )
-    )
+    response = client.get(f"/book/{firt_competition_past_fixture['name']}/{first_club_fixture['name']}")
     assert response.status_code == 200
-    data = response.data.decode()
-    assert data.find("This competition is no more available.") != -1
 
 
-def test_can_take_places_from_post_competition(client, first_club_fixture, second_competition_post_fixture):
+def test_book_user_is_logged_in(client, first_club_fixture, firt_competition_past_fixture):
     login = client.post('/showSummary', data=dict(email=first_club_fixture['email']), follow_redirects=True)
     assert login.status_code == 200
-    response = client.post(
-        '/purchasePlaces',
-        data=dict(
-            club=first_club_fixture['name'],
-            competition=second_competition_post_fixture['name'],
-            places=3
-        )
-    )
-
-    assert response.status_code == 200
+    response = client.get(f"/book/{firt_competition_past_fixture['name']}/{first_club_fixture['name']}")
     data = response.data.decode()
-    assert data.find('Great-booking complete!') != -1
+    assert response.status_code == 200
+    assert data.find(firt_competition_past_fixture['name']) != -1
+
+
+def test_book_user_is_not_logged_in(client, first_club_fixture, firt_competition_past_fixture):
+    response = client.get(f"/book/{firt_competition_past_fixture['name']}/{first_club_fixture['name']}")
+    data = response.data.decode()
+    assert response.status_code == 200
+    assert data.find("You are not logged in") != -1
+
+
+"""
+ISSUE 5 : BUG: Booking places in past competitions
+"""
 
 
 def test_cannot_access_to_past_competition(client, first_club_fixture, firt_competition_past_fixture):
