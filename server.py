@@ -9,8 +9,8 @@ Listing all data to read
 
 DATA_CLUBS = 'clubs'
 DATA_COMPETITIONS = 'competitions'
-TEST_DATA_CLUBS = 'test_clubs'
-TEST_DATA_COMPETITIONS = 'test_competitions'
+TEST_DATA_CLUBS = 'features/test_clubs'
+TEST_DATA_COMPETITIONS = 'features/test_competitions'
 
 
 """
@@ -23,8 +23,9 @@ The list name has the same name as the Json fine.
 
 
 def loadFile(file_name):
+    database_name = list(reversed(file_name.split('/')))
     with open(file_name + '.json') as file:
-        data = json.load(file)[file_name]
+        data = json.load(file)[database_name[0]]
         return data
 
 
