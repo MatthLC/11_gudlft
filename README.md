@@ -104,6 +104,13 @@ cd tests/performance_tests
 locust
 ```
 
+In your browser : [Locust server](http://localhost:8089/)
+
+- Parameters : 
+    - Number of local users to simulate : 6
+    - Spawn rate : 1
+    - Host : http://127.0.0.1:5000
+
 result with 6 users:
 ![le_cam_matthieu_2_2_statistics_apres](https://user-images.githubusercontent.com/85108007/165518282-aaea887a-5b79-4f2a-b547-c6192c590f79.PNG)
 ![le_cam_matthieu_2_4_number_of_users_apres](https://user-images.githubusercontent.com/85108007/165518299-e6f6afe3-fd59-411f-bb3a-cd52be67a3e1.png)
