@@ -65,6 +65,9 @@ pytest
 
 ## Fix
 
+- Gudlft v1.0.0:
+    - refactorisation of previous project : [Python_Testing](https://github.com/OpenClassrooms-Student-Center/Python_Testing)
+
 - Gudlft v1.0.1: 
     - Fixing [ERROR: Entering a unknown email crashes the app](https://github.com/OpenClassrooms-Student-Center/Python_Testing/issues/1)
     - Branch : BUG/ISSUE1_Error_entering_unknown_email
