@@ -118,7 +118,7 @@ coverage run -m pytest
 coverage html
 ```
 
-result:
+result can be found in html_coverage/index.html:
 
 ![le_cam_matthieu_2_2_coverage_apres](https://user-images.githubusercontent.com/85108007/165518546-144af968-c131-4890-95fe-ae2c90e79d7d.PNG)
 
