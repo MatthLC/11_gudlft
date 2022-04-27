@@ -49,3 +49,48 @@
     We also like to show how well we're testing, so there's a module called 
     [coverage](https://coverage.readthedocs.io/en/coverage-5.1/) you should add to your project.
 
+# Gudlft V1.1.0 Updates & Tests
+
+## Testing
+
+All tests are made with PyTest.
+
+Directory location : `/tests`
+
+How to use PyTest ? In your terminal :
+
+```
+pytest
+```
+
+## Fix
+
+- Gudlft v1.0.0:
+    - refactorisation of previous project : [Python_Testing](https://github.com/OpenClassrooms-Student-Center/Python_Testing)
+
+- Gudlft v1.0.1:
+    - Fixing [ERROR: Entering a unknown email crashes the app](https://github.com/OpenClassrooms-Student-Center/Python_Testing/issues/1)
+    - Branch : BUG/ISSUE1_Error_entering_unknown_email
+    - Folder '/features' : containing all test database
+
+- Gudlft v1.0.2:
+    - Fixing [BUG: Clubs should not be able to use more than their points allowed](https://github.com/OpenClassrooms-Student-Center/Python_Testing/issues/2)
+    - Branch: BUG/ISSUE2_points_allowed
+
+- Gudlft v1.0.3:
+    - Fixing [BUG: Clubs shouldn't be able to book more than 12 places per competition](https://github.com/OpenClassrooms-Student-Center/Python_Testing/issues/4)
+    - Branch: BUG/ISSUE4_no_more_than_12_places
+
+- Gudlft v1.0.4:
+    - Fixing [BUG: Booking places in past competitions](https://github.com/OpenClassrooms-Student-Center/Python_Testing/issues/5)
+    - Branch: BUG/ISSUE5_booking_past_competition
+
+- Gudlft v1.0.5:
+    - Fixing [BUG: Point updates are not reflected](https://github.com/OpenClassrooms-Student-Center/Python_Testing/issues/6)
+    - Branch: BUG/ISSUE6_point_updates_not_reflected
+
+- Gudlft v1.1.0:
+    - New feature: [FEATURE: Implement Points Display Board](https://github.com/OpenClassrooms-Student-Center/Python_Testing/issues/7)
+    - Branch: FUNCTIONALITY/phase2_points_clubs
+    - Added new template '/templates/board.html' to display club's points board. Clubs board can be access from the welcome page. Everyone can access to it.
+
