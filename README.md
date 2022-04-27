@@ -49,3 +49,21 @@
     We also like to show how well we're testing, so there's a module called 
     [coverage](https://coverage.readthedocs.io/en/coverage-5.1/) you should add to your project.
 
+# Gudlft V1.0.1 Updates & Tests
+
+## Testing
+
+All tests are made with PyTest.
+
+Directory location : `/tests`
+
+How to use PyTest ? In your terminal :
+
+```
+pytest
+```
+
+## Fix
+
+- Gudlft v1.0.0:
+    - refactorisation of previous project : [Python_Testing](https://github.com/OpenClassrooms-Student-Center/Python_Testing)
